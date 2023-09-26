@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/jigglypuff"
     tools:context=".MainActivity">
 
     <TextView
@@ -139,12 +140,13 @@
         app:layout_constraintTop_toBottomOf="@+id/attackTV" />
 
     <Button
-        android:id="@+id/saveButton"
+        android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="33dp"
         android:layout_marginBottom="24dp"
-        android:text="Save"
+        android:text="Submit"
+        android:onClick="submitB"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -152,11 +154,12 @@
         android:id="@+id/resetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:onClick="resetB"
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/saveButton" />
+        app:layout_constraintEnd_toStartOf="@+id/submitButton" />
 
     <EditText
         android:id="@+id/nameET"
@@ -164,8 +167,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="94dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="Name"
+        android:inputType="textCapWords"
+        android:text="Glastrier"
+        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ ."
         app:layout_constraintStart_toEndOf="@+id/pnameTV"
         app:layout_constraintTop_toBottomOf="@+id/nnET" />
 
@@ -175,8 +179,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="81dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="Name"
+        android:inputType="textCapWords"
+        android:text="Wild Horse Pokemon"
+        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         app:layout_constraintStart_toEndOf="@+id/speciesTV"
         app:layout_constraintTop_toBottomOf="@+id/nameET" />
 
@@ -188,6 +193,7 @@
         android:layout_marginTop="14dp"
         android:ems="10"
         android:inputType="number"
+        android:text="896"
         app:layout_constraintStart_toEndOf="@+id/numTV"
         app:layout_constraintTop_toBottomOf="@+id/subTV" />
 
@@ -199,6 +205,7 @@
         android:layout_marginTop="218dp"
         android:ems="10"
         android:inputType="number"
+        android:text="0"
         app:layout_constraintStart_toEndOf="@+id/hpTV"
         app:layout_constraintTop_toBottomOf="@+id/speciesET" />
 
@@ -209,6 +216,7 @@
         android:layout_marginStart="80dp"
         android:ems="10"
         android:inputType="number"
+        android:text="0"
         app:layout_constraintStart_toEndOf="@+id/attackTV"
         app:layout_constraintTop_toBottomOf="@+id/hpET" />
 
@@ -220,7 +228,70 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="number"
+        android:text="0"
         app:layout_constraintStart_toEndOf="@+id/defenseTV"
         app:layout_constraintTop_toBottomOf="@+id/attackET" />
+
+    <EditText
+        android:id="@+id/heightET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="2.2 m"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genGroup" />
+
+    <EditText
+        android:id="@+id/weightET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="800.0 kg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heightET" />
+
+    <RadioGroup
+        android:id="@+id/genGroup"
+        android:layout_width="266dp"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speciesET">
+
+        <RadioButton
+            android:id="@+id/maleRD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="checkButton"
+            android:text="Male" />
+
+        <RadioButton
+            android:id="@+id/femaleRD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="checkButton"
+            android:text="Female" />
+
+        <RadioButton
+            android:id="@+id/unkRD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="checkButton"
+            android:text="Unknown" />
+
+    </RadioGroup>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="212dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weightET" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
