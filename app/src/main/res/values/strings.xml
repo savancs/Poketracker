@@ -2,4 +2,6 @@
     <string name="app_name">Poke - Tracker</string>
     <color name="jigglypuff">#f4e1f7</color>
     <color name="red">#fc0303</color>
+    <color name="pikachu"> #eede73</color>
+    <color name="azelf"> #68aac0</color>
 </resources>
