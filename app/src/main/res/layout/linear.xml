@@ -318,6 +318,12 @@
             android:layout_height="wrap_content"
             android:onClick="submitB"
             android:text="Submit" />
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="deleteB"
+            android:text="Delete" />
 
         <Button
             android:id="@+id/resetButton"

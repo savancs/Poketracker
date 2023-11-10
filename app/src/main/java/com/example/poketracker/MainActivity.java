@@ -1,6 +1,10 @@
 package com.example.poketracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,13 +37,45 @@ public class MainActivity extends AppCompatActivity {
     EditText defenseEdit;
     TextView defenseView;
     TextView genderView;
+    Button submitButton;
+    Button resetButton;
+    Button deleteButton;
+    Button viewButton;
 
 
     RadioGroup genderGroup;
     Spinner spin;
+    public LinkedList<Pokemon> pokemans;
 
 
 
+    View.OnClickListener submitListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            submitB(view);
+        }
+    };
+    View.OnClickListener viewListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(MainActivity.this, DBListActivity.class));
+        }
+    };
+
+    View.OnClickListener deleteListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+           // Pokemon p = new Pokemon();
+            //deleteFromDB(p);
+        }
+    };
+
+    View.OnClickListener resetListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+           resetB(view);
+        }
+    };
 
     TextWatcher weightWatcher = new TextWatcher() {
         @Override
@@ -88,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.linear);
-        //setContentView(R.layout.constraint);
+        //setContentView(R.layout.linear);
+        setContentView(R.layout.activity_main);
         //setContentView(R.layout.table);
 
         natnumEdit = findViewById(R.id.nnET);
@@ -111,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
         attackView = findViewById(R.id.attackTV);
         defenseEdit = findViewById(R.id.defenseET);
         defenseView = findViewById(R.id.defenseTV);
+        submitButton = findViewById(R.id.submitButton);
+        resetButton = findViewById(R.id.resetButton);
+        deleteButton = findViewById(R.id.deleteButton);
+        viewButton = findViewById(R.id.viewButton);
 
         natnumEdit.setFilters(new InputFilter[]{new InputFilterMinMax(0, 1010)});
         List<String> valuesList = new ArrayList<>();
@@ -124,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
 
         heightEdit.addTextChangedListener(heightWatcher);
         weightEdit.addTextChangedListener(weightWatcher);
+
+        submitButton.setOnClickListener(submitListener);
+        deleteButton.setOnClickListener(deleteListener);
+        resetButton.setOnClickListener(resetListener);
 
     }
     public void checkButton(View v){
@@ -148,7 +193,32 @@ public class MainActivity extends AppCompatActivity {
         attackView.setTextColor(getResources().getColor(R.color.black));
         defenseView.setTextColor(getResources().getColor(R.color.black));
 
+    }
 
+
+    public void addToDB(Pokemon poke){
+        if(pokemans == null){
+            pokemans = new LinkedList<>();
+        }
+
+        pokemans.add(poke);
+        ContentValues mNewValues = new ContentValues();
+
+        mNewValues.put(PokeProvider.COLUMN_NUM, poke.getNum());
+        mNewValues.put(PokeProvider.COLUMN_NAME, poke.getName());
+        mNewValues.put(PokeProvider.COLUMN_GENDER, poke.getGender());
+        mNewValues.put(PokeProvider.COLUMN_SPECIES, poke.getSpecies());
+        mNewValues.put(PokeProvider.COLUMN_HEIGHT, poke.getHeight());
+        mNewValues.put(PokeProvider.COLUMN_WEIGHT, poke.getWeight());
+        mNewValues.put(PokeProvider.COLUMN_HP, poke.getHp());
+        mNewValues.put(PokeProvider.COLUMN_ATTACK, poke.getAttack());
+        mNewValues.put(PokeProvider.COLUMN_DEFENSE, poke.getDefense());
+
+        getContentResolver().insert(PokeProvider.CONTENT_URI, mNewValues);
+    }
+
+    public void deleteFromDB(Pokemon poke){
+        pokemans.remove(poke);
     }
 
     public void submitB(View v){
@@ -158,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             nameView.setTextColor(getResources().getColor(R.color.red));
             isValid = false;
         }
-        if(!genderGroup.isSelected() || genderGroup == null){
+        if( genderGroup == null){ //!genderGroup.isSelected() ||
             genderView.setTextColor(getResources().getColor(R.color.red));
             isValid = false;
         }
@@ -193,6 +263,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(isValid == true){
+            int numIn = Integer.parseInt(natnumEdit.getText().toString());
+            String nameIn = nameEdit.getText().toString();
+            String specIn = speciesEdit.getText().toString();
+            String genIn = String.valueOf(genderGroup.isSelected());
+            Float heightIn= Float.parseFloat(heightString);
+            Float weightIn= Float.parseFloat(weightString);
+
+            Pokemon newpoke = new Pokemon(numIn, nameIn, specIn, genIn, heightIn, weightIn, hp, attack, defense);
+            addToDB(newpoke);
             String message = "All information was stored in the database!";
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
@@ -216,6 +295,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     }
+
+
 //all of this i got from stackoverflow (: it is extending InputFilter to make sure the national number only goes up to 1010
     class InputFilterMinMax implements InputFilter {
         private int min, max;

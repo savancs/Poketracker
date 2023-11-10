@@ -313,6 +313,14 @@
             android:layout_marginBottom="24dp"
             android:onClick="resetB"
             android:text="Reset" />
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="24dp"
+            android:onClick="deleteB"
+            android:text="Delete" />
 
 
     </TableLayout>
